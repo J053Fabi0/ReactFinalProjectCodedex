@@ -18,7 +18,13 @@ function App() {
               "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + Math.ceil(Math.random() * 1000)
             );
             const data = await response.json();
-            console.log(data);
+
+            // Check that the artwork has an image
+            if (!data.primaryImage) {
+              i--;
+              continue;
+            }
+
             setArtwork(data);
             break;
           } catch (error) {
