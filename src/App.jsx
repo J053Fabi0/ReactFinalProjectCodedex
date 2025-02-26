@@ -14,7 +14,7 @@ function App() {
       (async () => {
         for (let i = 0; i < 3; i++) {
           try {
-            const response = fetch(
+            const response = await fetch(
               "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + Math.ceil(Math.random() * 1000)
             );
             const data = await response.json();
