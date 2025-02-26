@@ -11,10 +11,21 @@ function App() {
 
   useEffect(
     function () {
-      fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects/1")
-        .then((response) => response.json())
-        .then((data) => setArtwork(data))
-        .catch((error) => console.error("Error fetching data from the Met Museum API:", error));
+      (async () => {
+        for (let i = 0; i < 3; i++) {
+          try {
+            const response = fetch(
+              "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + Math.ceil(Math.random() * 1000)
+            );
+            const data = await response.json();
+            console.log(data);
+            setArtwork(data);
+            break;
+          } catch (error) {
+            console.error("Error fetching data from the Met Museum API:", error);
+          }
+        }
+      })();
     },
     [setArtwork]
   );
