@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react";
 import Question from "../components/Question";
-import { UserContext } from "../components/context";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../components/context";
+import { useContext, useEffect, useRef } from "react";
 
 /**
  * @typedef {object} QuestionObj
@@ -68,8 +68,9 @@ function determineElement(answers) {
 }
 
 export default function Quiz() {
+  const hasAlertBeenShown = useRef(false);
   const navigate = useNavigate();
-  const { answers, setAnswers, setCurrentQuestionIndex, currentQuestionIndex, setElement } =
+  const { answers, setAnswers, setCurrentQuestionIndex, currentQuestionIndex, setElement, name } =
     useContext(UserContext);
 
   /** @type {QuestionObj | null} */
@@ -79,6 +80,14 @@ export default function Quiz() {
     setAnswers((prev) => [...prev, answer]);
     setCurrentQuestionIndex((prev) => prev + 1);
   }
+
+  useEffect(() => {
+    if (!name && hasAlertBeenShown.current === false) {
+      alert("Please write your name before doing the Quiz.");
+      hasAlertBeenShown.current = true;
+      navigate("/");
+    }
+  });
 
   useEffect(() => {
     if (question === null) {
